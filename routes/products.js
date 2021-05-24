@@ -1,6 +1,8 @@
-const productsFile = require('../assets/products.json');
 const express = require('express')
-const products = express.Router();
+const router = express.Router();
+const Products = require('../modules/productsModel');
+const mongoose = require('mongoose');
+const db = mongoose.connection
 
 
 router.get('/api/products', (req, res) => {
@@ -9,6 +11,4 @@ router.get('/api/products', (req, res) => {
     Products.find({}, function(err, data) {res.send(data); console.log(err, data, data.length); });
 })
 
-
-
-module.exports = products
+module.exports = router
