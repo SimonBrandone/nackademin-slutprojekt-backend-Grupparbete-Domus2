@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -8,4 +6,3 @@ const Products = mongoose.model('products',
                'products');
 
 module.exports = Products
->>>>>>> Stashed changes
