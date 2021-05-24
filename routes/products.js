@@ -7,7 +7,6 @@ const db = mongoose.connection
 
 router.get('/api/products', (req, res) => {
     var Products = mongoose.model('products');
-    console.log("hej")
     Products.find({}, function(err, data) {res.send(data); console.log(err, data, data.length); });
 })
 
