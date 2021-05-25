@@ -29,7 +29,6 @@ router.post('/api/orders', async (req, res) => {
         //Sparas till databasen
         newOrder.save()
         res.send('Order Created')
-        res.json('order created')
     } catch (err) {
         // Om det blir fel.
         res.send(err)
