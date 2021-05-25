@@ -4,7 +4,7 @@ require('dotenv').config()
 // Import all Routes
 const routerJwt = require('./routes/jwt')
 const routerUser = require('./routes/users')
-const routerOrdersList = require('./routes/ordersList')
+const routerOrders = require('./routes/orders')
 // const routerOrder = require('./routes/orders')
 const routerProduct = require('./routes/products')
 
@@ -33,7 +33,7 @@ app.use(express.static('public'))
 // This to use different Routes.
 app.use(routerJwt)
 app.use(routerUser)
-app.use(routerOrdersList)
+app.use(routerOrders)
 // app.use(routerOrder)
 app.use(routerProduct)
 
