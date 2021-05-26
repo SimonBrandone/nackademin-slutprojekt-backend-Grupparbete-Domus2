@@ -3,7 +3,6 @@ const router = express.Router();
 const Product = require('../modules/productsModel');
 const mongoose = require('mongoose');
 const db = mongoose.connection
-var ObjectId = require('mongodb').ObjectID;
 
 //Hämta produkter, fungerar
 router.get('/api/products', (req, res) => {
@@ -42,7 +41,20 @@ router.delete('/api/products/:id', async (req, res) => {
 
 router.patch('/api/products/:id', (req, res, next) => {
     const id = req.params.id
-    Product.updateOne({ _id : id }, function(err, data) {res.json(data); console.log(err, data); });
+    // Product.collection.updateOne({}, function(err, data) {res.json(data); console.log(err, data); });
+    let newOrder = new Product({
+        _id: req.body.id,
+        title: req.body.title,
+        price: req.body.price,
+        shortDesc: req.body.shortDesc,
+        longDesc: req.body.longDesc,
+        imgFile: req.body.imgFile
+    })
+    Product.collection.Update(
+            { _id : id },
+           newOrder,
+            { new: true, upsert: true, returnOriginal: false })
+    
 })
 
 module.exports = router
