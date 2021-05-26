@@ -27,13 +27,17 @@ router.post('/api/products', (req, res) => {
     }
 })
 
+router.get('/api/products/:_id', (req, res) => {
 
-//För att ta bort en. Funkar inte riktigt, kan deleta annat än det man klickar på.
-router.delete('/api/products/:_id', (req, res, next) => {
-    Product.collection.deleteOne({}, function(err, data) {res.send(data); console.log(err, data, data.length); });
+    // Product.getCollection('stories').find({ _id: String })
+    Product.collection.findOne({ _id : Null }, function(err, data) {res.send(data); console.log(err, data); });
 })
 
-//för att uppdatera en order. Samma sak som med delete. ändrar inte den man klickar på alltid.
+router.delete('/api/products/:_id', async (req, res) => {
+    Product.collection.deleteOne(id, function(err, data) {res.send(data); console.log(err, data, data.length); });
+})
+
+
 router.patch('/api/products/:_id', (req, res, next) => {
 
 })

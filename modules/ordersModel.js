@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 
 const orderSchema = mongoose.Schema({
-    _id: String,
+    // _id: String,
     status: {
         type: String,
         default: 'In process'
