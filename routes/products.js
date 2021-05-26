@@ -41,19 +41,17 @@ router.delete('/api/products/:id', async (req, res) => {
 
 router.patch('/api/products/:id', (req, res, next) => {
     const id = req.params.id
-    // Product.collection.updateOne({}, function(err, data) {res.json(data); console.log(err, data); });
-    let newOrder = new Product({
-        _id: req.body.id,
+
+        var newValues = {
+            $set:  {
         title: req.body.title,
         price: req.body.price,
         shortDesc: req.body.shortDesc,
         longDesc: req.body.longDesc,
         imgFile: req.body.imgFile
-    })
-    Product.collection.Update(
-            { _id : id },
-           newOrder,
-            { new: true, upsert: true, returnOriginal: false })
+            }
+    }
+    Product.updateOne({ _id : id }, newValues, function(err, newValues) {res.json(newValues); console.log(err, newValues); })
     
 })
 
