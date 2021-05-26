@@ -3,6 +3,7 @@ const router = express.Router();
 const Product = require('../modules/productsModel');
 const mongoose = require('mongoose');
 const db = mongoose.connection
+var ObjectId = require('mongodb').ObjectID;
 
 //Hämta produkter, fungerar
 router.get('/api/products', (req, res) => {
@@ -12,6 +13,7 @@ router.get('/api/products', (req, res) => {
 //Lägga till produkt. Fungerar
 router.post('/api/products', (req, res) => {
     let newOrder = new Product({
+        _id: req.body.id,
         title: req.body.title,
         price: req.body.price,
         shortDesc: req.body.shortDesc,
@@ -27,18 +29,20 @@ router.post('/api/products', (req, res) => {
     }
 })
 
-router.get('/api/products/:_id', (req, res) => {
-
-    // Product.getCollection('stories').find({ _id: String })
-    Product.collection.findOne({ _id : Null }, function(err, data) {res.send(data); console.log(err, data); });
+router.get('/api/products/:id', (req, res) => {
+    const id = req.params.id
+    Product.collection.findOne({ _id : id }, function(err, data) {res.send(data); console.log(err, data, data.length); });
 })
 
-router.delete('/api/products/:_id', async (req, res) => {
-    Product.collection.deleteOne(id, function(err, data) {res.send(data); console.log(err, data, data.length); });
+router.delete('/api/products/:id', async (req, res) => {
+    const id = req.params.id
+    Product.collection.deleteOne({ _id : id }, function(err, data) {res.send(data); console.log(err, data, data.length); });
 })
 
 
-router.patch('/api/products/:_id', (req, res, next) => {
-
+router.patch('/api/products/:id', (req, res, next) => {
+    const id = req.params.id
+    Product.updateOne({ _id : id }, function(err, data) {res.json(data); console.log(err, data); });
 })
+
 module.exports = router
