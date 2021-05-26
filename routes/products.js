@@ -4,12 +4,12 @@ const Product = require('../modules/productsModel');
 const mongoose = require('mongoose');
 const db = mongoose.connection
 
-//Hämta produkter, fungerar
+
 router.get('/api/products', (req, res) => {
     Product.find({}, function(err, data) {res.json(data); console.log(err, data, data.length); });
 })
 
-//Lägga till produkt. Fungerar
+
 router.post('/api/products', (req, res) => {
     let newOrder = new Product({
         _id: req.body.id,
