@@ -39,7 +39,7 @@ router.delete('/api/products/:id', async (req, res) => {
 })
 
 
-router.patch('/api/products/:id', (req, res, next) => {
+router.patch('/api/products/:id', (req, res) => {
     const id = req.params.id
 
         var newValues = {

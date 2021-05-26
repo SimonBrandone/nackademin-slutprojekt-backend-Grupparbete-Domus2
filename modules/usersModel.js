@@ -6,10 +6,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    // repeatPassword: {
-    //     type: String,
-    //     required: true
-    // },
     name: String,
     role: {
         type: String,
