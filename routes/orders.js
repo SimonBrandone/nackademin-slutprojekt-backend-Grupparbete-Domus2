@@ -8,9 +8,8 @@ const db = mongoose.connection
 
 
 router.get('/api/orders', (req, res) => {
-    console.log("hej")
     var OrdersList = mongoose.model('orders');
-    OrdersList.find({}, function(err, data) {res.send(data); console.log(err, data, data.length); });
+    OrdersList.find({}, function(err, data) {res.send(data); console.log(err, data); });
 })
 
 router.post('/api/orders', async (req, res) => {
