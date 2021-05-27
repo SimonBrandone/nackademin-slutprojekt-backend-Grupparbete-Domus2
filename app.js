@@ -5,7 +5,6 @@ require('dotenv').config()
 const routerJwt = require('./routes/jwt')
 const routerUser = require('./routes/users')
 const routerOrders = require('./routes/orders')
-// const routerOrder = require('./routes/orders')
 const routerProduct = require('./routes/products')
 
 // Uppkoppling till db
@@ -34,7 +33,6 @@ app.use(express.static('public'))
 app.use(routerJwt)
 app.use(routerUser)
 app.use(routerOrders)
-// app.use(routerOrder)
 app.use(routerProduct)
 
 app.listen(process.env.PORT || 5000, () => console.log("It's running birch!"))
