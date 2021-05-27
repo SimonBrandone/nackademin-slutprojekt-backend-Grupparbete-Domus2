@@ -22,7 +22,7 @@ router.post('/api/products', (req, res) => {
     })
     try {
         newOrder.save()
-        res.send('products')
+        res.json({product : newOrder})
     } catch (err) {
         res.send(err)
     }
