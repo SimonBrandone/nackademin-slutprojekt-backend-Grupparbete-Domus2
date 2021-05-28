@@ -39,9 +39,3 @@ app.use(routerProduct)
 
 app.listen(process.env.PORT || 5000, () => console.log("It's running birch!"))
 // module.exports = app
-
-const authJwt = require("./methods/authJwt");
-
-module.exports = {
-  authJwt,
-};
