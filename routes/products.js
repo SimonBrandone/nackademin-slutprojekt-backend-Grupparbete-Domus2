@@ -4,6 +4,10 @@ const Product = require('../modules/productsModel');
 const User = require('../modules/usersModel');
 const mongoose = require('mongoose');
 const db = mongoose.connection
+const User = require('../modules/usersModel');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs')
+require('dotenv').config()
 
 
 // Token
@@ -19,10 +23,23 @@ const verifyToken = (req, res, next) => {
             if (err) {
                 res.send(err)
             } else {
+const verifyToken = (req, res, next) =>{
+
+    const token = req.headers.authorization.split(' ')[1];
+    
+    console.log(token)
+
+    if (token){
+        jwt.verify(token, `${process.env.SECRET}`, (err, decodedPayload) =>{
+            if(err){
+                res.send(err)
+            }else{
+
                 userid = decodedPayload._id;
                 next();
             }
         })
+
     } else {
         res.send('token not true')
     }
@@ -32,6 +49,15 @@ const verifyToken = (req, res, next) => {
 //Hitta produkter i databasen
 router.get('/api/products', (req, res) => {
     Product.find({}, function (err, data) { res.json(data); console.log(err, data); });
+
+    }else{
+        res.send('token not true')
+    }
+} 
+
+router.get('/api/products', async(req, res) => {
+    Product.find({}, function(err, data) {res.json(data); console.log(err, data); });
+
 })
 
 //Skapa ny produkt
@@ -60,6 +86,7 @@ router.get('/api/products/:id', (req, res) => {
 })
 
 //Tar bort produkt
+
 router.delete('/api/products/:id', async (req, res) => {
     userid = jwt.verify(req.cookies['auth-token'], process.env.SECRET);
     console.log(userid)
@@ -73,6 +100,9 @@ router.delete('/api/products/:id', async (req, res) => {
     } else {
         res.send('not authorized')
     }
+router.delete('/api/products/:id', verifyToken, async (req, res) => {
+    const id = req.params.id
+    Product.collection.deleteOne({ _id : id }, function(err, data) {res.send(data); console.log(err, data); });
 
 })
 

@@ -50,7 +50,12 @@ router.post('/api/auth/', async (req, res) => {
                             city: user.city
                         }
                     }
-                })
+                }
+                res.cookie(token)
+                res.json({
+                            token: token,
+                            user
+                        })
             } else {
                 res.send('Fel lösen eller email')
             }
