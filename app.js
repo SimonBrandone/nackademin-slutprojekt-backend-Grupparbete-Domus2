@@ -1,6 +1,6 @@
 // How to start use data from .env
 require('dotenv').config()
-
+const cookieParser = require('cookie-parser')
 // Import all Routes
 const routerJwt = require('./routes/jwt')
 const routerUser = require('./routes/users')
@@ -25,6 +25,7 @@ db.once('open', () => { console.log("Db ansluten.") })
 // This one to be able to read req.body better.
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(cookieParser())
 
 // This to use the frontend files.
 app.use(express.static('public'))
@@ -34,6 +35,7 @@ app.use(routerJwt)
 app.use(routerUser)
 app.use(routerOrders)
 app.use(routerProduct)
+
 
 app.listen(process.env.PORT || 5000, () => console.log("It's running birch!"))
 // module.exports = app

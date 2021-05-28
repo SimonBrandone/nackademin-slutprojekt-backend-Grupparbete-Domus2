@@ -5,59 +5,57 @@ require('dotenv').config()
 const User = require('../modules/usersModel')
 
 const express = require('express')
-const app = express()
+
 const router = express.Router()
 
 // Bcrypt for password check
 const bcrypt = require('bcryptjs')
 
-
 // Token
 const jwt = require('jsonwebtoken')
 
-// cookies
-const cookieParser = require('cookie-parser')
-app.use(cookieParser())
-
+// Denna post hittar en user genom email, kollar hens hashade lösenord, skapar en payload och ger den en token som vi lägger i cookie.
 router.post('/api/auth/', async (req, res) => {
-
 
     //Letar bara upp User via email.
     const user = await User.findOne({
         email: req.body.email
     })
 
-
     if (user) {
 
-        console.log(user)
-        console.log(req.body.password)
-
-
-        //Jämför hashade req.password mot det du skriver in i Insomnia. 
+        //Jämför hashade req.password mot det du skriver in i det user loggar in.
         bcrypt.compare(req.body.password, user.password, function (err, result) {
             if (err) res.json(err)
 
             //om resultatet inte är false, signa och skicka token. 
             if (result !== false) {
-                console.log(result)
-                const payload = user.role
+                const payload = {
+                    _id: user._id,
+                    role:user.role
+                }
 
+                // denna metod ger oss en token, den behöver en payload och ett lösenord som vi gömt i vår env fil.
                 const token = jwt.sign(payload, `${process.env.SECRET}`)
                 res.cookie('auth-token', token)
                 res.send({
-                            token: token,
-                            user
-                        })
+                    token: token,
+                    user: {
+                        name: user.name,
+                        role: user.role,
+                        email: user.email,
+                        adress: {
+                            street: user.street,
+                            zip: user.zip,
+                            city: user.city
+                        }
+                    }
+                })
             } else {
                 res.send('Fel lösen eller email')
             }
         })
-
     }
-
-
 })
-
 
 module.exports = router
