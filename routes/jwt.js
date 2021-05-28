@@ -44,8 +44,8 @@ router.post('/api/auth/', async (req, res) => {
                 const payload = user.role
 
                 const token = jwt.sign(payload, `${process.env.SECRET}`)
-                res.cookie('auth-token', token)
-                res.send({
+                res.cookie(token)
+                res.json({
                             token: token,
                             user
                         })
